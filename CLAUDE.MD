@@ -2,6 +2,10 @@
 
 Video & 3D generation workflows: ComfyUI (image generation, image-to-video) and TRELLIS.2 (image-to-3D).
 
+> **📋 Universal conventions:** See `../CONVENTIONS.MD` for project-wide standards, Claude working guidelines, and task management practices.
+
+---
+
 ## How it works
 
 This is a documentation repository containing:
