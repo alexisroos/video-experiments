@@ -1,8 +1,15 @@
-# ComfyUI Video Experiments
+# Video & 3D Generation Experiments
 
-This repository contains ComfyUI workflows for image generation and image-to-video animation.
+This repository contains workflows and notebooks for image generation, image-to-video animation, and image-to-3D model generation.
 
-## Workflows
+## Contents
+
+- [ComfyUI Workflows](#comfyui-workflows) - Image generation and video animation
+- [TRELLIS.2 Notebook](#trellis2-image-to-3d) - Image-to-3D model generation
+
+---
+
+## ComfyUI Workflows
 
 ### 1. Image Generation (`comfyui/workflows/ImageGeneration.json`)
 
@@ -97,3 +104,78 @@ The `images/` folder contains example input images:
 - Experiment with different frame counts (default 81) for shorter/longer animations
 - Adjust CFG values if animations are too literal (lower) or not following prompt enough (higher)
 - The negative prompt is crucial for avoiding common video artifacts like flickering or distortion
+
+---
+
+## TRELLIS.2 Image-to-3D
+
+Microsoft's TRELLIS.2 model for converting 2D images into 3D meshes (GLB format). Runs on Google Colab with A100 GPU.
+
+**Notebook:** `trellis.2/TRELLIS2_A100_v5.ipynb`
+
+### Overview
+- **Input:** 2D image (PNG, JPEG)
+- **Output:** 3D mesh (.glb) with geometry and textures
+- **Platform:** Google Colab (requires A100 GPU)
+- **Time:** 5-25 minutes per image depending on quality settings
+
+### Key Features
+- Automatic background removal
+- Multiple quality presets (512³, 1024³, 1536³ voxel resolution)
+- Colored mesh export with PBR materials (base color, roughness, metallic)
+- Optimized for single-object reconstruction
+
+### Requirements
+- Google Colab Pro/Pro+ (for A100 access)
+- HuggingFace account with gated model access
+- ~12GB Google Drive storage for model weights
+- Access to:
+  - `facebook/dinov3-vitl16-pretrain-lvd1689m`
+  - `ZhengPeng7/BiRefNet`
+
+### Pipeline Types
+| Type | Resolution | Quality | Time | VRAM |
+|---|---|---|---|---|
+| `512` | 512³ voxels | Good | ~5 min | ~35GB |
+| `1024` | 1024³ voxels | Better | ~12 min | ~38GB |
+| `1024_cascade` | Two-stage | Better | ~15 min | ~38GB |
+| `1536_cascade` | Two-stage | Best | ~25 min | ~40GB |
+
+### Documentation
+See [trellis2_docs.md](trellis2_docs.md) for:
+- Detailed setup instructions
+- Cell-by-cell guide
+- Troubleshooting common errors
+- Architecture notes
+- Performance optimization tips
+
+### Why the Patches?
+TRELLIS.2 is a research release requiring extensive modifications:
+- Custom CUDA extensions (FlexGEMM, CuMesh, nvdiffrast)
+- Dtype compatibility patches (bfloat16 ↔ float32)
+- Missing dependencies from original TRELLIS
+- Background removal model swap
+- Sparse structure decoder threshold fix
+
+All patches are documented and automated in the notebook.
+
+---
+
+## Project Structure
+
+```
+video-experiments/
+├── comfyui/
+│   └── workflows/
+│       ├── ImageGeneration.json       # SDXL portrait generation
+│       └── ImageToVideo.json          # Wan 2.2 I2V animation
+├── trellis.2/
+│   └── TRELLIS2_A100_v5.ipynb        # Image-to-3D notebook
+├── images/                            # Example input images
+│   ├── model.jpeg
+│   ├── background.jpeg
+│   └── movements.jpeg
+├── README.md                          # This file
+├── wan22_i2v_workflow_docs.md        # Wan 2.2 detailed guide
+└── trellis2_docs.md                  # TRELLIS.2 detailed guide
+```

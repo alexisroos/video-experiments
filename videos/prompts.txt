@@ -1,0 +1,3 @@
+prompts
+
+Using image1 as reference image, create a dance video following each step (there are 16) in 4x4 image grid of image2. Use image3 as background.
