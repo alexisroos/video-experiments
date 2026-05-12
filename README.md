@@ -175,7 +175,8 @@ video-experiments/
 │   ├── model.jpeg
 │   ├── background.jpeg
 │   └── movements.jpeg
+├── videos/                            # Example output videos
 ├── README.md                          # This file
-├── wan22_i2v_workflow_docs.md        # Wan 2.2 detailed guide
+├── CLAUDE.MD                          # Project documentation
 └── trellis2_docs.md                  # TRELLIS.2 detailed guide
 ```
