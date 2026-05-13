@@ -10,6 +10,9 @@
 output/
 temp/
 
+# Input videos (not committed)
+input_videos/
+
 # Large model files (not typically version controlled)
 *.safetensors
 *.ckpt
